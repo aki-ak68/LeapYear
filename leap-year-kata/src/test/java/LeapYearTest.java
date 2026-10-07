@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LeapYearTest {
 
@@ -32,5 +31,21 @@ public class LeapYearTest {
         assertTrue(leapYear.isLeapYear(1600));
         assertTrue(leapYear.isLeapYear(2000));
         assertTrue(leapYear.isLeapYear(2400));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenYearIsZero() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> leapYear.isLeapYear(0)
+        );
+    }
+
+    @Test
+    void shouldThrowExceptionWhenYearIsNegative() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> leapYear.isLeapYear(-1)
+        );
     }
 }
