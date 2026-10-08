@@ -16,7 +16,7 @@ The project also validates the input year and rejects zero or negative values.
 
 * Implement leap year business rules
 * Follow Test-Driven Development
-* Write unit tests using JUnit
+* Write unit tests using JUnit 6
 * Handle edge cases
 * Validate invalid input
 * Refactor without changing existing behavior
@@ -113,7 +113,7 @@ The implementation was built incrementally rather than writing the complete solu
 
 ## Step 1 – Project Setup
 
-The Maven project was created with Java 17 and JUnit configured for unit testing.
+The Maven project was created with Java 17 and JUnit 6 configured for unit testing.
 
 The project was structured with separate production and test source directories.
 
@@ -335,42 +335,72 @@ src/test/java/LeapYearTest.java
 ```
 
 ---
-
 # Test Coverage
 
 The unit tests cover the following scenarios.
 
 ### Non-Leap Years
 
-* 2017
-* 2018
-* 2019
+- 2017
+- 2018
+- 2019
 
 ### Leap Years Divisible by Four
 
-* 2008
-* 2012
-* 2016
+- 2008
+- 2012
+- 2016
 
 ### Century Years That Are Not Leap Years
 
-* 1700
-* 1800
-* 1900
-* 2100
+- 1700
+- 1800
+- 1900
+- 2100
 
 ### Century Years That Are Leap Years
 
-* 1600
-* 2000
-* 2400
+- 1600
+- 2000
+- 2400
+
+### Boundary Years
+
+- 3 → not a leap year
+- 4 → leap year
+- 99 → not a leap year
+- 100 → not a leap year
+- 399 → not a leap year
+- 400 → leap year
+- 401 → not a leap year
 
 ### Invalid Input
 
-* 0
-* Negative year
+- 0
+- Negative year
 
+The test suite uses JUnit parameterized tests to reduce duplication and improve maintainability.
 ---
+
+## Parameterized Testing
+
+Parameterized tests are used for scenarios where multiple input values are expected to produce the same result.
+
+For example, multiple non-leap years and multiple leap years are tested using a single test method with different input values.
+
+This reduces duplicate test methods and keeps the test suite concise, readable, and maintainable.
+
+## Boundary Testing
+
+Boundary-oriented test cases are included around the key divisibility rules.
+
+The important boundaries covered are:
+
+- 3 and 4 — boundary for the divisible-by-4 rule
+- 99 and 100 — boundary for the century-year rule
+- 399, 400, and 401 — boundary for the divisible-by-400 rule
+
+Testing values around these boundaries helps verify that the leap year logic behaves correctly when the divisibility rules change.
 
 # Running the Tests
 
@@ -398,7 +428,7 @@ The `LeapYear` class does not contain a `main()` method because it is a business
 
 # Test Execution
 
-The complete test suite was executed successfully using the configured Maven and JUnit setup.
+The complete test suite was executed successfully using the configured Maven and JUnit 6 setup.
 
 The test execution confirms that all implemented leap year rules and validation scenarios are passing.
 
