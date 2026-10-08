@@ -1,36 +1,53 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LeapYearTest {
+class LeapYearTest {
 
     private final LeapYear leapYear = new LeapYear();
 
-    @Test
-    void shouldReturnFalseWhenYearIsNotDivisibleByFour() {
-        assertFalse(leapYear.isLeapYear(2017));
+    @ParameterizedTest
+    @ValueSource(ints = {2017, 2018, 2019})
+    void shouldReturnFalseWhenYearIsNotDivisibleByFour(int year) {
+        assertFalse(leapYear.isLeapYear(year));
     }
 
-    @Test
-    void shouldReturnTrueWhenYearIsDivisibleByFour() {
-        assertTrue(leapYear.isLeapYear(2008));
-        assertTrue(leapYear.isLeapYear(2012));
-        assertTrue(leapYear.isLeapYear(2016));
+    @ParameterizedTest
+    @ValueSource(ints = {2008, 2012, 2016})
+    void shouldReturnTrueWhenYearIsDivisibleByFourButNotByHundred(int year) {
+        assertTrue(leapYear.isLeapYear(year));
     }
 
-    @Test
-    void shouldReturnFalseWhenYearIsDivisibleByHundredButNotFourHundred() {
-        assertFalse(leapYear.isLeapYear(1700));
-        assertFalse(leapYear.isLeapYear(1800));
-        assertFalse(leapYear.isLeapYear(1900));
-        assertFalse(leapYear.isLeapYear(2100));
+    @ParameterizedTest
+    @ValueSource(ints = {1700, 1800, 1900, 2100})
+    void shouldReturnFalseWhenYearIsDivisibleByHundredButNotFourHundred(int year) {
+        assertFalse(leapYear.isLeapYear(year));
     }
 
-    @Test
-    void shouldReturnTrueWhenYearIsDivisibleByFourHundred() {
-        assertTrue(leapYear.isLeapYear(1600));
-        assertTrue(leapYear.isLeapYear(2000));
-        assertTrue(leapYear.isLeapYear(2400));
+    @ParameterizedTest
+    @ValueSource(ints = {1600, 2000, 2400})
+    void shouldReturnTrueWhenYearIsDivisibleByFourHundred(int year) {
+        assertTrue(leapYear.isLeapYear(year));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "3, false",
+            "4, true",
+            "99, false",
+            "100, false",
+            "399, false",
+            "400, true",
+            "401, false"
+    })
+    void shouldHandleBoundaryYears(int year, boolean expected) {
+        assertEquals(expected, leapYear.isLeapYear(year));
     }
 
     @Test
